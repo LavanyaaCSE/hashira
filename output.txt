@@ -1,0 +1,12 @@
+PS C:\Users\lavanyaa\Desktop\hashira> g++ -O2 -std=gnu++17 solved.cpp -o solved
+PS C:\Users\lavanyaa\Desktop\hashira> ./solved input.json               
+--- Running Test Case 1 ---
+Correct Secret: 2
+Incorrect Key(s): None
+
+--- Running Test Case 2 ---
+Correct Secret: 79836264049850
+Incorrect Key(s): 2 8 
+PS C:\Users\lavanyaa\Desktop\hashira> 
+
+

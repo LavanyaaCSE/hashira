@@ -4,17 +4,15 @@
 #include <map>
 #include <algorithm>
 #include <stdexcept>
-#include <cctype> // For std::isspace
+#include <cctype> 
 
-// A simple structure to hold a share's data.
 struct Share {
     std::string x;
     std::string y;
     int base;
 };
 
-// --- BigInt Class Implementation (from scratch) ---
-// This class handles arithmetic for arbitrarily large numbers.
+
 class BigInt {
 public:
     std::string value;
@@ -31,7 +29,6 @@ public:
         }
     }
 
-    // Helper to remove leading zeros from a number string.
     static std::string removeLeadingZeros(const std::string& s) {
         size_t first_digit = s.find_first_not_of('0');
         if (std::string::npos == first_digit) {
@@ -40,7 +37,6 @@ public:
         return s.substr(first_digit);
     }
 
-    // Comparison operators for BigInt
     bool operator<(const BigInt& other) const {
         if (is_negative != other.is_negative) {
             return is_negative;
@@ -59,7 +55,6 @@ public:
         return !(*this == other);
     }
 
-    // Unsigned comparison
     static int compareUnsigned(const std::string& s1, const std::string& s2) {
         if (s1.length() > s2.length()) return 1;
         if (s1.length() < s2.length()) return -1;
@@ -68,7 +63,7 @@ public:
         return 0;
     }
 
-    // Addition operation
+
     BigInt add(const BigInt& other) const {
         if (is_negative == other.is_negative) {
             std::string result = addStrings(value, other.value);
@@ -82,14 +77,12 @@ public:
         }
     }
 
-    // Subtraction operation
     BigInt subtract(const BigInt& other) const {
         BigInt temp = other;
         temp.is_negative = !temp.is_negative;
         return this->add(temp);
     }
 
-    // Multiplication operation
     BigInt multiply(const BigInt& other) const {
         std::string s1 = value;
         std::string s2 = other.value;
@@ -128,7 +121,6 @@ public:
         return BigInt(res_str, is_negative != other.is_negative);
     }
 
-    // Division operation, fixed for handling signs correctly
     BigInt divide(const BigInt& other) const {
         if (other.value == "0") throw std::runtime_error("Division by zero");
 
@@ -154,7 +146,6 @@ public:
         return BigInt(quotient_str, result_is_negative);
     }
 
-    // Convert from a different base string to BigInt (base 10)
     static BigInt fromBase(const std::string& val, int base) {
         if (base < 2 || base > 36) throw std::runtime_error("Invalid base");
         BigInt result("0");
@@ -178,7 +169,6 @@ public:
     }
 
 private:
-    // Helper function to add two positive strings
     static std::string addStrings(const std::string& s1, const std::string& s2) {
         std::string result = "";
         int i = s1.length() - 1;
@@ -195,7 +185,6 @@ private:
         return result;
     }
 
-    // Helper function to subtract two positive strings (assuming s1 > s2)
     static std::string subtractStrings(const std::string& s1, const std::string& s2) {
         std::string result = "";
         std::string s_larger = s1, s_smaller = s2;
@@ -228,19 +217,15 @@ private:
     }
 };
 
-// --- JSON Parser (from scratch) ---
-// This function manually parses a simple JSON string to extract required data.
 void parseJSON(const std::string& json, int& n, int& k, std::vector<Share>& shares) {
     size_t pos = 0;
     
-    // Find and parse "n"
     pos = json.find("\"n\":", pos);
     if (pos == std::string::npos) return;
     pos += 4;
     size_t end_pos = json.find_first_of(",}", pos);
     n = std::stoi(json.substr(pos, end_pos - pos));
-
-    // Find and parse "k"
+    
     pos = json.find("\"k\":", pos);
     if (pos == std::string::npos) return;
     pos += 4;
@@ -249,7 +234,6 @@ void parseJSON(const std::string& json, int& n, int& k, std::vector<Share>& shar
 
     pos = end_pos + 1; // Start searching after the "keys" object
     
-    // Find and parse all share entries
     while (true) {
         size_t key_start = json.find('"', pos);
         if (key_start == std::string::npos) break;
@@ -263,13 +247,12 @@ void parseJSON(const std::string& json, int& n, int& k, std::vector<Share>& shar
         Share s;
         s.x = share_key;
 
-        // Parse base
+
         size_t base_pos = obj_str.find("\"base\":");
         size_t base_val_start = obj_str.find('"', base_pos + 7) + 1;
         size_t base_val_end = obj_str.find('"', base_val_start);
         s.base = std::stoi(obj_str.substr(base_val_start, base_val_end - base_val_start));
 
-        // Parse value
         size_t val_pos = obj_str.find("\"value\":");
         size_t val_val_start = obj_str.find('"', val_pos + 8) + 1;
         size_t val_val_end = obj_str.find('"', val_val_start);
@@ -280,8 +263,6 @@ void parseJSON(const std::string& json, int& n, int& k, std::vector<Share>& shar
     }
 }
 
-// --- Combinations Generator (recursive) ---
-// Generates all combinations of k shares from the given vector of shares.
 void generateCombinations(const std::vector<Share>& all_shares, int start_index, int k, std::vector<Share>& current_combination, std::vector<std::vector<Share>>& all_combinations) {
     if (k == 0) {
         all_combinations.push_back(current_combination);
@@ -324,7 +305,6 @@ BigInt findSecret(const std::vector<Share>& shares) {
     return secret;
 }
 
-// --- Main Function ---
 int main() {
     // Test case 1 
     const std::string test_case_1 = R"({
@@ -470,4 +450,5 @@ int main() {
     }
 
     return 0;
+
 }

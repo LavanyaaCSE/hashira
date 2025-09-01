@@ -1,4 +1,4 @@
-# BASIC_DSA_PROBLEMS
+# Shamir Secret Sharing - C++ Implementation
 
 This repository contains a C++ implementation of Shamir’s Secret Sharing Scheme, allowing you to:
 

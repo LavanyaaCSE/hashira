@@ -40,7 +40,7 @@ main(): Runs test cases, prints the reconstructed secret, and lists incorrect ke
 1. Clone the repository:
 
 ```
-git clone https://github.com/your-username/basic-dsa-problems.git
+git clone https://github.com/LavanyaaCSE/hashira.git
 ```
 2. Compile:
 
